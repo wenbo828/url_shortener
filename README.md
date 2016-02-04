@@ -1,1 +1,1 @@
-# url_shortener
+Used for shorten a very long URL.
