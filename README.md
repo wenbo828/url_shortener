@@ -1,1 +1,1 @@
-Used for shorten a very long URL.
+Used for shortening a very long URL.
