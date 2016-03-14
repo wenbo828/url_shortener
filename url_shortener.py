@@ -8,21 +8,24 @@ import httplib
 import urllib
 import json
 
-#originURL = "https://docs.python.org/2.7/library/json.html?highlight=json#module-json"
-originURL = raw_input("\nPlease enter the original URL:\n")
-originURLEncode = urllib.quote(originURL)
-params = urllib.urlencode({'format': 'json', 'url': originURL})
-headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+longUrl = raw_input("\nPlease enter the original URL:\n")
 
 def urlShorten():
-    conn = httplib.HTTPConnection("is.gd", port=80, timeout=30)
-    conn.request("POST", "/create.php", params, headers)
-    data = conn.getresponse()
-    response = data.read()
-    result = json.loads(response)["shorturl"]
-    print response
-    print originURLEncode
-    print "Result:\n%s" % result
+    apiHost = "api-ssl.bitly.com"
+    apiName = "/v3/shorten"
+    Header = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+    Param = urllib.urlencode({'access_token': '5a5ce2397a0c314b50a34eb7012c22e7625d2432', 'longUrl': longUrl})
+    httpsConnection = httplib.HTTPSConnection(host=apiHost, port=443, timeout=15)
+    httpsConnection.request(method='GET', url=apiName, body=Param, headers=Header)
+    httpsResponse = httpsConnection.getresponse()
+    httpsResponseContent = httpsResponse.read()
+    #parsedResult = json.loads(httpsResponseContent)['url']
+    httpsConnection.close()
+    print "\n"
+    print Param
+    print "Result:"
+    print httpsResponseContent
+    #print parsedResult
 
 if __name__ == '__main__':
     urlShorten()
